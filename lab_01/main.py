@@ -7,7 +7,7 @@ import modules.layout as layout
 import math
 
 INDENT = 40
-TEXT_INDENT = [-20, -10]
+TEXT_INDENT = [30, 0]
 
 class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
     def __init__(self):
@@ -30,7 +30,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         '''
         self.clearLabel()
         result_idxs = []
-        all_min_side = math.inf
+        all_max_side = -1
         if len(self.points) > 2:
             for i in range(len(self.points)):
                 for j in range(i + 1, len(self.points)):
@@ -38,10 +38,9 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
                         side_a = math.sqrt(math.pow(self.points[i][0] - self.points[j][0], 2) + math.pow(self.points[i][1] - self.points[j][1], 2))
                         side_b = math.sqrt(math.pow(self.points[i][0] - self.points[k][0], 2) + math.pow(self.points[i][1] - self.points[k][1], 2))
                         side_c = math.sqrt(math.pow(self.points[j][0] - self.points[k][0], 2) + math.pow(self.points[j][1] - self.points[k][1], 2))
-                        max_side = max(side_a, side_b, side_c)
-                        print(side_a, side_b, side_c, 'kkk')
-                        if all_min_side > max_side and (side_a + side_b > side_c and side_c + side_a > side_b and side_c + side_b > side_a):
-                            all_min_side = max_side
+                        min_side = min(side_a, side_b, side_c)
+                        if all_max_side < min_side and (side_a + side_b > side_c and side_c + side_a > side_b and side_c + side_b > side_a):
+                            all_max_side = min_side
                             result_idxs = [i, j, k]
             if result_idxs == []:
                 self.logErrorInvalidData()
@@ -65,11 +64,13 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         painter.begin(pixmap)
         pen = QPen()
         pen2 = QPen()
+        pen3 = QPen()
         pen.setColor(QColor('red'))
         pen2.setColor(QColor('red'))
+        pen3.setColor(QColor('blue'))
         pen.setWidth(3)
         pen2.setWidth(3)
-        pen.setWidth(3)
+        pen3.setWidth(3)
         pen2.setDashPattern([5,5])
         pen2.setDashOffset(5)
         painter.setPen(pen)
@@ -79,7 +80,6 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
             x_min, y_min, x_max, y_max = self.edge_coords(self.points)
             center_x = (x_max + x_min) / 2
             center_y = (y_max + y_min) / 2
-            painter.drawPoint(QPointF(halfsize_x, halfsize_y))
             coef = min((halfsize_x - INDENT)/(abs(center_x - x_min)), (halfsize_y - INDENT)/(abs(center_y - y_min)))
             
             result_points = []
@@ -91,7 +91,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
             side_a = math.sqrt(math.pow(result_points[0][0] - result_points[1][0], 2) + math.pow(result_points[0][1] - result_points[1][1], 2))
             side_b = math.sqrt(math.pow(result_points[0][0] - result_points[2][0], 2) + math.pow(result_points[0][1] - result_points[2][1], 2))
             side_c = math.sqrt(math.pow(result_points[1][0] - result_points[2][0], 2) + math.pow(result_points[1][1] - result_points[2][1], 2))
-            
+            painter.setPen(pen3)
             if side_c >= side_a <= side_b:
                 x, y = self.orthoProjection(result_points[0], result_points[1], result_points[2])
                 painter.drawLine(QLineF(result_points[2][0], result_points[2][1], x, y))
@@ -110,7 +110,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
                 painter.setPen(pen2)
                 painter.drawLine(QLineF(result_points[1][0], result_points[1][1], x, y))
                 painter.setPen(pen)
-            
+            painter.setPen(pen)
             painter.drawLine(QLineF(result_points[0][0], result_points[0][1], result_points[1][0], result_points[1][1]))
             painter.drawLine(QLineF(result_points[0][0], result_points[0][1], result_points[2][0], result_points[2][1]))
             painter.drawLine(QLineF(result_points[1][0], result_points[1][1], result_points[2][0], result_points[2][1]))
@@ -155,7 +155,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
                 if i != len(self.points) - 1:
                     painter.drawText(QPointF(x + TEXT_INDENT[0], y + TEXT_INDENT[1]), "{}: {};{}".format(i + 1, self.points[i][0], self.points[i][1]))
                 else:
-                    painter.drawText(QPointF(x + TEXT_INDENT[0], y + TEXT_INDENT[1]), "{}: {};{}".format("h", self.points[i][0], self.points[i][1]))
+                    painter.drawText(QPointF(x + TEXT_INDENT[0], y + TEXT_INDENT[1]), "{}: {:g};{:g}".format("h", self.points[i][0], self.points[i][1]))
  
         else:
             self.logErrorInsufficientPoints()
