@@ -62,6 +62,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
 
         blackPen = QPen(QColor('black'))
         redPen = QPen(QColor('red'))
+        greenPen = QPen(QColor('green'))
         redPenBold = QPen(QColor('red'))
         redPenBold.setWidth(4)
         bluePen = QPen(QColor('blue'))
@@ -78,10 +79,13 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
 
         painter.setPen(redPen)
         pointText = QPointF(self.point.x() - 20, self.point.y() + 30)
-        painter.drawText(pointText, "({}, {})".format(self.point.x() - self.paintLabel.width() / 2, self.point.y() - self.paintLabel.height() / 2))
+        painter.drawText(pointText, "({}, {})".format(self.point.x() - self.paintLabel.width() / 2, self.paintLabel.height() / 2 - self.point.y() ))
         painter.setPen(redPenBold)
         painter.drawPoint(self.point)
-
+        
+        painter.setPen(greenPen)
+        painter.drawLine(QPointF(0, self.paintLabel.height() / 2),QPointF(self.paintLabel.width(), self.paintLabel.height() / 2))
+        painter.drawLine(QPointF(self.paintLabel.width() / 2, 0),QPointF(self.paintLabel.width() / 2, self.paintLabel.height()))
         painter.end()
         self.paintLabel.setPixmap(pixmap)
     
@@ -156,7 +160,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
             self.parabola = self.rotate(self.parabola, alpha, x_axis, y_axis)
             self.circle = self.rotate(self.circle, alpha, x_axis, y_axis)
             self.intersection = self.circle.intersected(self.parabola)
-            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 + y_axis)
+            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 - y_axis)
             self.draw()
         
     def rotate(self, polygon: QPolygonF, alpha: float, x_axis: float, y_axis: float):
@@ -164,7 +168,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         center_y = self.paintLabel.height() / 2
         result_polygon = QPolygonF()
         x_axis += center_x
-        y_axis += center_y
+        y_axis = center_y - y_axis
         
         if alpha != '':
             matrix_A = np.matrix([  
@@ -179,7 +183,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
                                 ])
             matrix_C = np.matrix([
                                     [1      , 0     , 0],
-                                    [0      , 1     , 0], 
+                                    [0      , 1     , 0],
                                     [x_axis , y_axis, 1]
                                 ])
             result_matrix = np.dot(np.dot(matrix_A, matrix_B), matrix_C)
@@ -204,12 +208,15 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         except:
             kx = ''
             self.logErrorIncorrectData()
+        if kx == 0 or ky == 0:
+            self.logErrorIncorrectData()
+            kx = ''
         if kx != '':
             self.reversed_history.append([self.rescale, 1/kx, 1/ky, x_axis, y_axis])
             self.parabola = self.rescale(self.parabola, kx, ky, x_axis, y_axis)
             self.circle = self.rescale(self.circle, kx, ky, x_axis, y_axis)
             self.intersection = self.circle.intersected(self.parabola)
-            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 + y_axis)
+            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 - y_axis)
             self.draw()
 
     def rescale(self, polygon: QPolygonF, kx: float, ky: float, x_axis: float, y_axis: float):
@@ -217,7 +224,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         center_y = self.paintLabel.height() / 2
         result_polygon = QPolygonF()
         x_axis += center_x
-        y_axis += center_y
+        y_axis = center_y - y_axis
         matrix_A = np.matrix([  
                                 [1      , 0         , 0],
                                 [0      , 1         , 0], 
@@ -249,7 +256,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
         y_axis = self.pointYForm.text()
         try:
             x = float(x)
-            y = float(y)
+            y = -float(y)
             x_axis = float(x_axis)
             y_axis = float(y_axis)
         except:
@@ -260,7 +267,7 @@ class MainWindow(QMainWindow, layout.Ui_Dialog, QWidget):
             self.parabola = self.move(self.parabola, x, y)
             self.circle = self.move(self.circle, x, y)
             self.intersection = self.circle.intersected(self.parabola)
-            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 + y_axis)
+            self.point = QPointF(self.paintLabel.width() / 2 + x_axis, self.paintLabel.height() / 2 - y_axis)
             self.draw()
 
     def move(self, polygon: QPolygonF, x: float, y: float):

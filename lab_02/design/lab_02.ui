@@ -732,7 +732,7 @@
      <x>980</x>
      <y>10</y>
      <width>191</width>
-     <height>361</height>
+     <height>371</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -1097,7 +1097,7 @@
       <x>10</x>
       <y>320</y>
       <width>171</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="font">
@@ -1109,7 +1109,7 @@
      <enum>QFrame::StyledPanel</enum>
     </property>
     <property name="text">
-     <string>Вся история будет очищена</string>
+     <string>Все изменения будут аннулированы</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
