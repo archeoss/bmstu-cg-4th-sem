@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'lab_01.ui'
+# Form implementation generated from reading ui file 'lab_01/design/lab_01.ui'
 #
 # Created by: PyQt6 UI code generator 6.2.3
 #
@@ -238,13 +238,3 @@ class Ui_Dialog(object):
         item = self.tableOfPoints.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Y"))
         self.loggerLabel.setText(_translate("Dialog", "App started..."))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec())
