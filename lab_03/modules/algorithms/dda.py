@@ -1,6 +1,6 @@
 def dda(x1 : float, y1 : float, x2 : float, y2 : float):
-    if not isinstance(x1, float) or not isinstance(y1, float) or not isinstance(x2, float) or not isinstance(y2, float):
-        raise TypeError
+    # if not isinstance(x1, float) or not isinstance(y1, float) or not isinstance(x2, float) or not isinstance(y2, float):
+    #     raise TypeError
     points = []
     dx, dy = x2 - x1, y2 - y1
     x, y = round(x1), round(y1)

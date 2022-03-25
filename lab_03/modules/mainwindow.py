@@ -13,6 +13,9 @@ NUMBER_OF_POINTS = 50
 PARABOLA_WIDTH_COEF = 3
 PARABOLA_MAX = 9999
 
+HIST_PATH = os.path.join(os.path.dirname(__file__), 'plots/histo.png')
+PLOT_PATH = os.path.join(os.path.dirname(__file__), 'plots/plot.png')
+
 class MainWindow(QMainWindow, Ui_Dialog, QWidget):
     def __init__(self):
         super().__init__()
@@ -20,11 +23,24 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
         self.curAlgo = 'lib'
         self.setupUi(self)
         self.connectButtons()
+
         scene = QGraphicsScene()
-        self.graphicsView.setScene(scene)
         scene.setSceneRect(0, 0, self.mainFrame.width() - 10, self.mainFrame.height() - 10)
+
         self.pixmap = QPixmap(int(scene.width()), int(scene.height()))
+        self.pixmap.fill(QColor('black'))
         scene.addPixmap(self.pixmap)
+
+        self.graphicsView.setScene(scene)
+
+        scene2 = QGraphicsScene()
+        self.graphicsView_2.setScene(scene2)
+        scene2.setSceneRect(0, 0, self.mainFrame.width() - 10, self.mainFrame.height() - 10)
+
+        scene3 = QGraphicsScene()
+        self.graphicsView_3.setScene(scene3)
+        scene3.setSceneRect(0, 0, self.mainFrame.width() - 10, self.mainFrame.height() - 10)
+
         self.rowCount = 0
         self.circle = QPolygonF()
         self.parabola = QPolygonF()
@@ -66,7 +82,11 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
                 self.graphicsView.scene().addPixmap(self.pixmap)
 
     def analysis(self):
-        makeGisto()
+        self.graphicsView_2.scene().clear()
+        self.graphicsView_3.scene().clear()
+        makePlot()
+        self.graphicsView_2.scene().addPixmap(QPixmap(HIST_PATH))
+        self.graphicsView_3.scene().addPixmap(QPixmap(PLOT_PATH))
 
     def setRed(self):
         self.color = [255, 0, 0]
@@ -92,6 +112,7 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
 
     def connectButtons(self):
         self.exitButton.clicked.connect(self.exitApp)
+        self.exitButton_2.clicked.connect(self.exitApp)
         self.drawButton.clicked.connect(self.drawClicked)
         self.drawSunButton.clicked.connect(self.drawSunClicked)
         self.resetButton.clicked.connect(self.clear)
@@ -123,10 +144,12 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
 
     def clear(self):
         scene = QGraphicsScene()
-        self.graphicsView.setScene(scene)
         scene.setSceneRect(0, 0, self.mainFrame.width() - 10, self.mainFrame.height() - 10)
         self.pixmap = QPixmap(int(scene.width()), int(scene.height()))
+        self.pixmap.fill(QColor('black'))
         scene.addPixmap(self.pixmap)
+
+        self.graphicsView.setScene(scene)
 
     def exitApp(self):
         sys.exit()

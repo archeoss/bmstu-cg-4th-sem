@@ -5,8 +5,8 @@ def rfpart(x):
     return 1 - fpart(x)
 
 def Wu(x1 : float, y1 : float, x2 : float, y2 : float):
-    if not isinstance(x1, float) or not isinstance(y1, float) or not isinstance(x2, float) or not isinstance(y2, float):
-        raise TypeError
+    # if not isinstance(x1, float) or not isinstance(y1, float) or not isinstance(x2, float) or not isinstance(y2, float):
+    #     raise TypeError
     points = []
     I = 255
     dx = x2 - x1
@@ -46,14 +46,11 @@ def Wu(x1 : float, y1 : float, x2 : float, y2 : float):
     for x in range(x_s, x_e):
         y = int(intery)
 
-        dens1 = rfpart(intery)
-        dens2 = fpart(intery)
-
+        dens2 = intery - int(intery)
+        dens1 = 1 - dens2
         points.append([*p(x, y), int(I * dens1)])
         points.append([*p(x, y+1), int(I * dens2)])
 
         intery += m
 
-        dens1 = rfpart(intery)
-    print(points)
     return points

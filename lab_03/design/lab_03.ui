@@ -26,7 +26,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="main_tab">
     <attribute name="title">
@@ -605,6 +605,11 @@ background-color: rgb(61, 61, 61);</string>
         <height>22</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
      </widget>
      <widget class="QLabel" name="label_15">
       <property name="geometry">
@@ -711,6 +716,11 @@ background-color: rgb(61, 61, 61);</string>
         <height>22</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
      </widget>
      <widget class="QLabel" name="label_18">
       <property name="geometry">
@@ -756,6 +766,11 @@ background-color: rgb(61, 61, 61);</string>
         <width>41</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
       </property>
       <property name="text">
        <string/>
@@ -805,6 +820,11 @@ background-color: rgb(61, 61, 61);</string>
         <width>41</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
       </property>
       <property name="text">
        <string/>
@@ -861,6 +881,11 @@ background-color: rgb(61, 61, 61);</string>
         <width>51</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
       </property>
      </widget>
      <widget class="QLabel" name="label_19">
@@ -968,6 +993,11 @@ background-color: rgb(61, 61, 61);</string>
         <height>22</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
      </widget>
      <widget class="QPushButton" name="drawSunButton">
       <property name="geometry">
@@ -1001,7 +1031,7 @@ background-color: rgb(61, 61, 61);</string>
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>1171</width>
+       <width>621</width>
        <height>731</height>
       </rect>
      </property>
@@ -1049,10 +1079,10 @@ background-color: rgb(61, 61, 61);</string>
     <widget class="QFrame" name="frame">
      <property name="geometry">
       <rect>
-       <x>1180</x>
-       <y>270</y>
-       <width>191</width>
-       <height>80</height>
+       <x>1270</x>
+       <y>289</y>
+       <width>101</width>
+       <height>61</height>
       </rect>
      </property>
      <property name="autoFillBackground">
@@ -1068,20 +1098,30 @@ background-color: rgb(61, 61, 61);</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
-        <width>171</width>
+        <y>10</y>
+        <width>81</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>12</pointsize>
+        <pointsize>16</pointsize>
        </font>
       </property>
       <property name="text">
-       <string>Показать Результаты</string>
+       <string>Анализ</string>
       </property>
      </widget>
+    </widget>
+    <widget class="QGraphicsView" name="graphicsView_3">
+     <property name="geometry">
+      <rect>
+       <x>630</x>
+       <y>0</y>
+       <width>631</width>
+       <height>731</height>
+      </rect>
+     </property>
     </widget>
    </widget>
   </widget>
