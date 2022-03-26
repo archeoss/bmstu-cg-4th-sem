@@ -1,8 +1,6 @@
-from xml.etree.ElementPath import xpath_tokenizer
-from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QWidget
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt6.QtGui import QPainter, QColor, QPen, QPixmap, QBrush, QPolygonF
-from PyQt6.QtCore import QPointF, QLineF, Qt
+from PyQt6.QtCore import QPointF, Qt
 import numpy as np
 import sys
 import modules.layout as layout

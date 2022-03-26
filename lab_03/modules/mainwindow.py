@@ -1,12 +1,11 @@
-from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTableWidgetItem, QWidget, QGraphicsScene
-from PyQt6.QtGui import QPainter, QColor, QPen, QPixmap, QBrush, QPolygonF
-from PyQt6.QtCore import QPointF, QLineF, Qt
-import numpy as np
+from PyQt6.QtWidgets import QMainWindow, QWidget, QGraphicsScene
+from PyQt6.QtGui import QColor, QPixmap, QPolygonF
+from PyQt6.QtCore import QPointF
 import sys
 from .layout import *
 from .draw import *
 from .plot import *
+
 INDENT = 40
 TEXT_INDENT = [-20, -10]
 NUMBER_OF_POINTS = 50

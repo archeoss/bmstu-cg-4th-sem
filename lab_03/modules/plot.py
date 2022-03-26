@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 from PyQt6.QtGui import QPixmap
-from PyQt6 import QtWidgets 
 
 TIMES = 10
 TOTAL_DEGREES = 90

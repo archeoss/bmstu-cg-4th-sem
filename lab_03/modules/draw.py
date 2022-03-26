@@ -1,7 +1,6 @@
-from PyQt6.QtGui import QPen, QBrush, QPixmap, QPainter, QColor
-from PyQt6.QtWidgets import QGraphicsScene
+from PyQt6.QtGui import QPixmap, QPainter, QColor
 from .algorithms.dda import *
-from PyQt6.QtCore import Qt, QPointF, QPoint
+from PyQt6.QtCore import QPointF
 from math import sin, cos, radians
 from .algorithms.bresenham import *
 from .algorithms.wu import *
@@ -12,9 +11,6 @@ def draw(pixmap : QPixmap, pcolor : list[int], \
             x1 : float, y1 : float, x2 : float, y2 : float, algo : str):
     center_x = pixmap.width() / 2
     center_y = pixmap.height() / 2
-    # coef_x = scene.width() / abs(x2 - x1)
-    # coef_y = scene.height() / abs(y2 - y1)
-    # k = min(coef_x, coef_y)
     painter = QPainter()
     painter.begin(pixmap)
     painter.setPen(QColor(*pcolor, 255))
