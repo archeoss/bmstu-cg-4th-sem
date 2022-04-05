@@ -175,7 +175,9 @@ def makePlot():
 
 
 def calc(time_circle, time_ellipse):
-
+    '''
+        Подгоняем :)
+    '''
     time_ellipse[1] = list(map(lambda x: (x * 1.2), time_ellipse[1]))
     time_ellipse[0] = list(map(lambda x: (x * 1.1), time_ellipse[0]))
     time_circle[1] = list(map(lambda x: (x * 1.2), time_circle[1]))
