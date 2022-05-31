@@ -1,7 +1,10 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QColorDialog, QGraphicsScene
 from PyQt6.QtGui import QColor, QPixmap
 import sys
+
+from .graphicsView import GraphicsView
 from .layout import Ui_Dialog
+from .draw import clipping
 
 class MainWindow(QMainWindow, Ui_Dialog, QWidget):
     def __init__(self):
@@ -15,16 +18,10 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
         self.isDelay = False
         self.connectButtons()
 
-    def enclose(self):
-        self.graphicsView.points[-1].append(self.graphicsView.start_point)
-        self.graphicsView.draw()
-        self.graphicsView.isNew = True
-
     def drawClicked(self):
-        self.isDelay = self.delayButton.isChecked()
-        delay_time = self.delaySlider.maximum() - self.delaySlider.value() + 1 if self.isDelay else 0
-        # fill_polygon(self.graphicsView, self.fillColor, self.bordColor, self.isDelay, delay_time)
-    
+        self.graphicsView.meme()
+        clipping(self.graphicsView)
+        
     def addLine(self):
         xa = self.lineXAForm.text()
         ya = self.lineYAForm.text()
@@ -37,7 +34,9 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
             self.logErrorIncorrectData()
             flag = False
         if flag:
-            self.graphicsView.drawLine(xa, ya, xb, yb, self.lineColor)
+            self.graphicsView.lines.append([xa, ya, xb, yb])
+            self.graphicsView.drawLine(self.graphicsView.linesPixmap, xa, ya, xb, yb, self.lineColor)
+            self.graphicsView.update(self.graphicsView.backgroundPixmap, self.graphicsView.linesPixmap, self.graphicsView.cutterPixmap, )
         
     def addCutter(self):
         xa = self.cutterXAForm.text()
@@ -51,7 +50,14 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
             self.logErrorIncorrectData()
             flag = False
         if flag:
-            self.graphicsView.drawRect(xa, ya, xb, yb, self.cutterColor)
+            x1, x2, y1, y2 =    min(xa, xb),\
+                                max(xa, xb),\
+                                min(ya, yb),\
+                                max(ya, yb),
+            self.graphicsView.cutter = [x1, x2, y2, y1]
+            self.graphicsView.drawRect(self.graphicsView.cutterPixmap, xa, ya, xb, yb, self.cutterColor)
+            self.graphicsView.update(self.graphicsView.backgroundPixmap, self.graphicsView.linesPixmap, self.graphicsView.cutterPixmap, )
+        
         
     def chooseLineColor(self):
         dialog = QColorDialog()
@@ -101,16 +107,7 @@ class MainWindow(QMainWindow, Ui_Dialog, QWidget):
         self.loggerLabel.setText("Решение выведено на экран.")
 
     def clear(self):
-        scene = QGraphicsScene()
-        scene.setSceneRect(0, 0, self.mainFrame.width() - 10, self.mainFrame.height() - 10)
-        self.pixmap = QPixmap(int(scene.width()), int(scene.height()))
-        self.pixmap.fill(QColor('black'))
-        scene.addPixmap(self.pixmap)
-        self.graphicsView.points = []
-        self.graphicsView.isNew = True
-        self.graphicsView.start_point = []
-        self.graphicsView.prefilledPoints = []
-        self.graphicsView.setScene(scene)
+        self.graphicsView.clear()
 
     def exitApp(self):
         sys.exit()
